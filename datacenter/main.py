@@ -1,6 +1,6 @@
 import sys
 from data_center import DataCenter
-from server import Server
+from server import Server, UnavailableSlot
 
 
 if __name__ == "__main__":
@@ -17,7 +17,7 @@ if __name__ == "__main__":
             # Read input
             for i in range(unavailable):
                 row_id, slot_id = map(int, f.readline().split())
-                data_center.set(row_id, slot_id, Server.UNAVAILABLE)
+                data_center.set(row_id, slot_id, UnavailableSlot())
 
             for i in range(server_count):
                 size, capacity = map(int, f.readline().split())
