@@ -24,6 +24,7 @@ if __name__ == "__main__":
                 servers.append(Server(i, size, capacity))
 
             # Magic
+            print data_center.slot_indexes
 
             # Print output
             print "Score", data_center.get_score()
