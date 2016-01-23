@@ -10,7 +10,7 @@ class DataCenter(object):
         return self.rows[row_index][slot_index]
 
     def has_required_space(self, row_index, slot_index, server):
-        for i in xrange(server.size):
+        for i in xrange(server.size if server else 10):
             if self.get(row_index, slot_index + i):
                 return False
         return True
