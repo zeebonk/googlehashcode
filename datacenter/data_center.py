@@ -1,5 +1,6 @@
 from collections import defaultdict
 from sys import maxint
+from server import Server
 
 
 class NoSpaceAvailableError(Exception):
@@ -8,20 +9,21 @@ class NoSpaceAvailableError(Exception):
 
 class DataCenter(object):
     def __init__(self, rows, slots):
+        self.slots = slots
         self.rows = [[None] * slots for i in xrange(rows)]
 
     @property
     def slot_indexes(self):
-        slot_indexes = list()
         for row_index, row in enumerate(self.rows):
             for slot_index in range(len(row)):
-                slot_indexes.append((row_index, slot_index))
-        return slot_indexes
+                yield (row_index, slot_index)
 
     def get(self, row_index, slot_index):
         return self.rows[row_index][slot_index]
 
     def has_required_space(self, row_index, slot_index, server):
+        if slot_index + server.size > self.slots:
+            return False
         for i in xrange(server.size if server else 1):
             if self.get(row_index, slot_index + i):
                 return False
@@ -41,7 +43,7 @@ class DataCenter(object):
         servers = set()
         for row in self.rows:
             for slot in row:
-                if slot:
+                if isinstance(slot, Server):
                     servers.add(slot)
         return servers
 

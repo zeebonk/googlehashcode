@@ -17,4 +17,4 @@ class UnavailableSlot(object):
         self.slot_index = None
 
     def __nonzero__(self):
-        return False
+        return True
