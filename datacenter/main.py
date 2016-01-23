@@ -28,7 +28,7 @@ if __name__ == "__main__":
         lib.magic(data_center, servers)
 
         # Print output
-        #print "Score", data_center.get_score()
+        print "Score", data_center.get_score()
         for server in sorted(servers, key=lambda s: s.id):
             if not server.pool:
                 print 'x'
