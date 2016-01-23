@@ -14,13 +14,24 @@ if __name__ == "__main__":
             data_center = DataCenter(rows, slots_per_row)
             servers = []
 
+            # Read input
             for i in range(unavailable):
                 row_id, slot_id = map(int, f.readline().split())
                 data_center.set(row_id, slot_id, Server.UNAVAILABLE)
-            
+
             for i in range(server_count):
                 size, capacity = map(int, f.readline().split())
                 servers.append(Server(size, capacity))
+
+            # Magic
+
+
+            # Print output
+            for server in servers:
+                if not server.pool:
+                    print 'x'
+                else:
+                    print "%d %d %d" % (server.row_index, server.slot_index, server.pool)
     except IOError as e:
         quit("Input file error: %s" % e.args[-1])
     except (ValueError, TypeError):
