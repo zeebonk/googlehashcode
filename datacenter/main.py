@@ -21,13 +21,13 @@ if __name__ == "__main__":
 
             for i in range(server_count):
                 size, capacity = map(int, f.readline().split())
-                servers.append(Server(size, capacity))
+                servers.append(Server(i, size, capacity))
 
             # Magic
 
 
             # Print output
-            for server in servers:
+            for server in sorted(servers, key=lambda s: s.id):
                 if not server.pool:
                     print 'x'
                 else:

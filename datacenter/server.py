@@ -1,7 +1,8 @@
 class Server(object):
     UNAVAILABLE = 0
 
-    def __init__(self, size, capacity):
+    def __init__(self, id, size, capacity):
+        self.id = id
         self.size = size
         self.capacity = capacity
         self.pool = None
