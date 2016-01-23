@@ -1,3 +1,6 @@
+from collections import defaultdict
+
+
 class NoSpaceAvailableError(Exception):
     pass
 
@@ -23,3 +26,9 @@ class DataCenter(object):
             self.rows[row_index][slot_index + i] = server
             server.row_index = row_index
             server.slot_index = slot_index
+
+    def get_score(self):
+        pools = defaultdict(list)
+        for server in servers:
+            if server.pool:
+                pools[server.pool].append(server)
