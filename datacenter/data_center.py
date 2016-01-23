@@ -21,3 +21,5 @@ class DataCenter(object):
         # Set server at all required slots
         for i in xrange(server.size):
             self.rows[row_index][slot_index + i] = server
+            server.row_index = row_index
+            server.slot_index = slot_index
