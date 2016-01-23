@@ -10,7 +10,7 @@ class DataCenter(object):
         return self.rows[row_index][slot_index]
 
     def has_required_space(self, row_index, slot_index, server):
-        for i in xrange(server.size if server else 10):
+        for i in xrange(server.size if server else 1):
             if self.get(row_index, slot_index + i):
                 return False
         return True
@@ -19,7 +19,7 @@ class DataCenter(object):
         if not self.has_required_space(row_index, slot_index, server):
             raise NoSpaceAvailableError("At row %d slot %d" % (row_index, slot_index + 1))
         # Set server at all required slots
-        for i in xrange(server.size):
+        for i in xrange(server.size if server else 1):
             self.rows[row_index][slot_index + i] = server
             server.row_index = row_index
             server.slot_index = slot_index
