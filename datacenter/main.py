@@ -25,8 +25,8 @@ if __name__ == "__main__":
 
             # Magic
 
-
             # Print output
+            print "Score", data_center.get_score()
             for server in sorted(servers, key=lambda s: s.id):
                 if not server.pool:
                     print 'x'
@@ -36,4 +36,3 @@ if __name__ == "__main__":
         quit("Input file error: %s" % e.args[-1])
     except (ValueError, TypeError):
         quit("Error processing file")
-

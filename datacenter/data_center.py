@@ -32,3 +32,4 @@ class DataCenter(object):
         for server in servers:
             if server.pool:
                 pools[server.pool].append(server)
+        return 0
