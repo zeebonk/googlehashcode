@@ -28,6 +28,8 @@ if __name__ == "__main__":
 
         # Magic
         lib.magic(data_center, servers, pool_count)
+        data_center.show()
+        quit()
 
         score = data_center.get_score()
         if score > max_score:

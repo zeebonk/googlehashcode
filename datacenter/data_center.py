@@ -1,6 +1,8 @@
+from __future__ import print_function
 from collections import defaultdict
 from sys import maxint
-from server import Server
+from server import Server, UnavailableSlot
+from itertools import cycle
 
 
 class NoSpaceAvailableError(Exception):
@@ -63,3 +65,23 @@ class DataCenter(object):
                 min_guaranteed_capacity = min(min_guaranteed_capacity, capacity)
 
         return min_guaranteed_capacity
+    
+    def show(self):
+        end = "\033[1;m"
+        color_iterator = cycle(['\033[1;43m', '\033[1;44m'])
+        for row in self.rows:
+            server = None
+            color = color_iterator.next()
+            for slot in row:
+                if isinstance(slot, UnavailableSlot):
+                    print("\033[1;41m  %s" % end, end='')
+                elif isinstance(slot, Server):
+                    if slot != server:
+                        color = color_iterator.next()
+                        print("%s%2d%s" % (color, slot.pool, end), end='')
+                    else:
+                        print("%s  %s" % (color, end), end='')
+                    server = slot
+                else:
+                    print("%s  %s" % ("\033[1;42m", end), end='')
+            print("")
