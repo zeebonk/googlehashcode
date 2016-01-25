@@ -28,10 +28,9 @@ if __name__ == "__main__":
 
         # Magic
         lib.magic(data_center, servers, pool_count)
-        data_center.show()
-        quit()
 
-        score = data_center.get_score()
+        score, pool = data_center.get_score()
+        data_center.show(pool)
         if score > max_score:
             print score
             max_score = score
@@ -46,10 +45,4 @@ if __name__ == "__main__":
 
 
 
-        # Print output
-        #print "Score", data_center.get_score()
-        #for server in sorted(servers, key=lambda s: s.id):
-        #    if not server.pool:
-        #        print 'x'
-        #    else:
-        #        print "%d %d %d" % (server.row_index, server.slot_index, server.pool)
+        quit()

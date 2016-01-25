@@ -26,7 +26,7 @@ class DataCenter(object):
     def has_required_space(self, row_index, slot_index, server):
         if slot_index + server.size > self.slots:
             return False
-        for i in xrange(server.size if server else 1):
+        for i in xrange(server.size):
             if self.get(row_index, slot_index + i):
                 return False
         return True
@@ -35,7 +35,7 @@ class DataCenter(object):
         if not self.has_required_space(row_index, slot_index, server):
             raise NoSpaceAvailableError("At row %d slot %d" % (row_index, slot_index + 1))
 
-        for i in xrange(server.size if server else 1):
+        for i in xrange(server.size):
             self.rows[row_index][slot_index + i] = server
             server.row_index = row_index
             server.slot_index = slot_index
@@ -56,17 +56,21 @@ class DataCenter(object):
                 pools[server.pool].append(server)
 
         min_guaranteed_capacity = maxint
+        p = -1
         for pool, servers in pools.iteritems():
             for row_index, row in enumerate(self.rows):
                 capacity = 0
                 for server in servers:
                     if server.row_index != row_index:
                         capacity += server.capacity
+                if capacity < min_guaranteed_capacity:
+                    p = server.pool
                 min_guaranteed_capacity = min(min_guaranteed_capacity, capacity)
 
-        return min_guaranteed_capacity
+        print("DEZE %d" % p)
+        return min_guaranteed_capacity, p
     
-    def show(self):
+    def show(self, pool):
         end = "\033[1;m"
         color_iterator = cycle(['\033[1;43m', '\033[1;44m'])
         for row in self.rows:
@@ -84,4 +88,15 @@ class DataCenter(object):
                     server = slot
                 else:
                     print("%s  %s" % ("\033[1;42m", end), end='')
-            print("")
+            i = 0
+            for s in row:
+                if isinstance(s, Server):# and s.pool == pool:
+                    i += s.capacity / float(s.size)
+            #i = sum([s.capacity if isinstance(s, Server) and s.pool == pool else 0 for s in row])
+            print(" %3d" %i)
+
+
+
+
+
+
