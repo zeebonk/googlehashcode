@@ -1,5 +1,6 @@
 from random import shuffle, randint
 
+
 def magic(data_center, servers, pool_count):
     shuffle(servers)
 
@@ -12,9 +13,9 @@ def magic(data_center, servers, pool_count):
                 data_center.set(row_index, slot_index, server)
 
                 if i < pool_count:
-                    server.pool = i+1
+                    server.pool = i + 1
                 else:
                     server.pool = randint(1, pool_count)
-                i+= 1
+                i += 1
                 s.remove(server)
                 break

@@ -1,48 +1,39 @@
-import sys
 import importlib
+import sys
+
 from data_center import DataCenter
 from server import Server, UnavailableSlot
+from cStringIO import StringIO
+
+
+def load_from_file(f):
+    rows_count, slots_per_row, unavailable_count, pool_count, server_count = map(int, f.readline().split())
+    data_center = DataCenter(rows_count, slots_per_row)
+    for i in xrange(unavailable_count):
+        row_id, slot_id = map(int, f.readline().split())
+        data_center.set(row_id, slot_id, UnavailableSlot())
+    servers = [map(int, f.readline().split()) for i in xrange(server_count)]
+    servers = [Server(i, size, capacity) for i, (size, capacity) in enumerate(servers)]
+    f.seek(0)
+    return rows_count, slots_per_row, unavailable_count, pool_count, server_count, servers, data_center
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        quit("Usage - python %s file magic" % sys.argv[0])
+    if len(sys.argv) < 4:
+        quit("Usage - python %s file magic iterations" % sys.argv[0])
+
+    iterations = int(sys.argv[3])
+    input_file = StringIO(open(sys.argv[1]).read())
+    magic = importlib.import_module('magic.' + sys.argv[2]).magic
 
     max_score = 0
-    lib = importlib.import_module(sys.argv[2])
-    while True:
-        with open(sys.argv[1]) as f:
-            rows, slots_per_row, unavailable, pool_count, server_count = map(int, f.readline().split())
+    for i in xrange(iterations):
+        rows_count, slots_per_row, unavailable_count, pool_count, server_count, servers, data_center = load_from_file(input_file)
 
-            data_center = DataCenter(rows, slots_per_row)
-            servers = []
-
-            # Read input
-            for i in range(unavailable):
-                row_id, slot_id = map(int, f.readline().split())
-                data_center.set(row_id, slot_id, UnavailableSlot())
-
-            for i in range(server_count):
-                size, capacity = map(int, f.readline().split())
-                servers.append(Server(i, size, capacity))
-
-        # Magic
-        lib.magic(data_center, servers, pool_count)
+        magic(data_center, servers, pool_count)
 
         score, pool = data_center.get_score()
-        data_center.show(pool)
         if score > max_score:
-            print score
+            print "Score", score
+            data_center.show(pool)
             max_score = score
-
-                #with open("temp/%d.out" % score, 'w') as f:
-                #    pass
-                    #for server in sorted(servers, key=lambda s: s.id):
-                    #    if not server.pool:
-                    #        f.write('x\n')
-                    #    else:
-                    #        f.write("%d %d %d\n" % (server.row_index, server.slot_index, server.pool))
-
-
-
-        quit()

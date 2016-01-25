@@ -67,9 +67,8 @@ class DataCenter(object):
                     p = server.pool
                 min_guaranteed_capacity = min(min_guaranteed_capacity, capacity)
 
-        print("DEZE %d" % p)
         return min_guaranteed_capacity, p
-    
+
     def show(self, pool):
         end = "\033[1;m"
         color_iterator = cycle(['\033[1;43m', '\033[1;44m'])
@@ -90,13 +89,7 @@ class DataCenter(object):
                     print("%s  %s" % ("\033[1;42m", end), end='')
             i = 0
             for s in row:
-                if isinstance(s, Server):# and s.pool == pool:
+                if isinstance(s, Server):  # and s.pool == pool:
                     i += s.capacity / float(s.size)
-            #i = sum([s.capacity if isinstance(s, Server) and s.pool == pool else 0 for s in row])
-            print(" %3d" %i)
-
-
-
-
-
-
+            # i = sum([s.capacity if isinstance(s, Server) and s.pool == pool else 0 for s in row])
+            print(" %3d" % i)

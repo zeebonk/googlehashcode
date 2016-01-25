@@ -1,5 +1,3 @@
-from random import randint
-
 def magic(data_center, servers, pool_count):
     servers = sorted(servers, key=lambda s: s.capacity/s.size)
 
