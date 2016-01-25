@@ -5,10 +5,6 @@ from server import Server, UnavailableSlot
 from itertools import cycle
 
 
-class NoSpaceAvailableError(Exception):
-    pass
-
-
 class DataCenter(object):
     def __init__(self, rows, slots):
         self.slots = slots
@@ -33,12 +29,14 @@ class DataCenter(object):
 
     def set(self, row_index, slot_index, server):
         if not self.has_required_space(row_index, slot_index, server):
-            raise NoSpaceAvailableError("At row %d slot %d" % (row_index, slot_index + 1))
+            return False
 
         for i in xrange(server.size):
             self.rows[row_index][slot_index + i] = server
             server.row_index = row_index
             server.slot_index = slot_index
+
+        return True
 
     @property
     def servers(self):
