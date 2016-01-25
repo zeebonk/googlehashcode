@@ -1,12 +1,17 @@
+from random import shuffle
+
+
 def magic(data_center, servers, pool_count):
     servers = sorted(servers, key=lambda s: s.capacity/s.size)
 
     row_indexes = [0] * len(data_center.rows)
     pool_i = 0
+    rows_copy = data_center.rows
+    shuffle(rows_copy)
 
     while True:
         l = len(servers)
-        for row_index, row in enumerate(data_center.rows):
+        for row_index, row in enumerate(rows_copy):
             for server in servers:
                 if data_center.has_required_space(row_index, row_indexes[row_index], server):
                     data_center.set(row_index, row_indexes[row_index], server)
