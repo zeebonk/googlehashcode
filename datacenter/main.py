@@ -30,7 +30,7 @@ if __name__ == "__main__":
     for i in xrange(iterations):
         rows_count, slots_per_row, unavailable_count, pool_count, server_count, servers, data_center = load_from_file(input_file)
 
-        magic(data_center, servers, pool_count)
+        magic(data_center, servers[:], pool_count)
 
         score, pool = data_center.get_score()
         if score > max_score:
