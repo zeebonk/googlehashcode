@@ -18,7 +18,6 @@ if __name__ == '__main__':
 
     # Get result from the algorithm
     result = module.algorithm(picture, args)
-    
+
     # TODO: print/submit output file? print/submit score?
     # ...
-
