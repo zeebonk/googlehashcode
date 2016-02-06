@@ -68,3 +68,5 @@ temp/
 *.swp
 *.swo
 
+# output files
+*.out
