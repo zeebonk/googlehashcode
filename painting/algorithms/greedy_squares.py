@@ -18,7 +18,7 @@ def algorithm(picture, args):
     """
     Keep placing the biggest square possible
     """
-    painter = Painter(nppicture.empty_copy(picture))
+    painter = Painter(picture.empty_copy())
 
     square = Square(-1, -1, 100000)
     while True:
@@ -32,7 +32,7 @@ def algorithm(picture, args):
 
 def get_largest_unpainted_square(picture, painter, prev_size):
     largest_square = Square(-1, -1, -1)
-    for row, column in nppicture.positions_to_paint(painter.picture, picture):
+    for row, column in painter.picture.positions_to_paint(picture):
         max_radius = min(
             picture.shape[0] - row,
             picture.shape[1] - column,

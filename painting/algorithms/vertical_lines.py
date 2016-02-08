@@ -1,4 +1,3 @@
-import nppicture
 from painter import Painter
 
 
@@ -6,9 +5,9 @@ def algorithm(picture, args):
     """
     Try to use vertical lines for each cell
     """
-    painter = Painter(nppicture.empty_copy(picture))
+    painter = Painter(picture.empty_copy())
 
-    for row, column in nppicture.positions_to_paint(painter.picture, picture):
+    for row, column in painter.picture.positions_to_paint(picture):
         if painter.picture[row][column]:
             continue
 

@@ -1,7 +1,7 @@
 import argparse
 import importlib
 
-import nppicture
+from picture import Picture
 
 
 if __name__ == '__main__':
@@ -14,7 +14,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Load input data and algorithm
-    picture = nppicture.from_file(args.data)
+    picture = Picture.from_file(args.data)
     module = importlib.import_module('algorithms.' + args.algorithm)
 
     # Get result from the algorithm
@@ -22,8 +22,8 @@ if __name__ == '__main__':
 
     if args.debug:
         # Output images and other details
-        print(nppicture.to_string(picture))
-        print(nppicture.to_string(painter.picture))
+        print(picture)
+        print(painter.picture)
         print(len(painter.commands))
         if (picture != painter.picture).any():
             raise Exception("Result image different from target image")
