@@ -1,24 +1,27 @@
-from picture import Picture
+import nppicture
 from painter import Painter
 
-# Try to use horizontal lines for each cell
-def algorithm(picture, args):
-    painter = Painter(picture.width, picture.height)
 
-    for j in range(picture.width):
-        for i in range(picture.height):
-            if painter.picture.data[i][j]:
+def algorithm(picture, args):
+    """
+    Try to use horizontal lines for each cell
+    """
+    painter = Painter(nppicture.empty_copy(picture))
+
+    for j in range(picture.shape[1]):
+        for i in range(picture.shape[0]):
+            if painter.picture[i][j]:
                 continue
-            
-            if picture.data[i][j]:
+
+            if picture[i][j]:
                 length = 0
 
-                for k in range(i+1, picture.height):
-                    if picture.data[k][j]:
+                for k in range(i+1, picture.shape[0]):
+                    if picture[k][j]:
                         length += 1
                     else:
                         break
 
                 painter.paint_line(i, j, i+length, j)
 
-    print(painter.get_output())
+    return painter

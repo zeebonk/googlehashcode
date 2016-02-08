@@ -1,13 +1,16 @@
-from picture import Picture
+import nppicture
 from painter import Painter
 
-# Paint each cell with a single command resulting in a score 0
-def algorithm(picture, args):
-    painter = Painter(picture.width, picture.height)
 
-    for j in range(picture.width):
-        for i in range(picture.height):
-            if picture.data[i][j]:
+def algorithm(picture, args):
+    """
+    Paint each cell with a single command resulting in a score 0
+    """
+    painter = Painter(nppicture.empty_copy(picture))
+
+    for i in range(picture.shape[0]):
+        for j in range(picture.shape[1]):
+            if picture[i][j]:
                 painter.paint_square(i, j, 0)
 
-    print(painter.get_output())
+    return painter
