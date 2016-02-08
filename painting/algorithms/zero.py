@@ -8,9 +8,7 @@ def algorithm(picture, args):
     """
     painter = Painter(nppicture.empty_copy(picture))
 
-    for i in range(picture.shape[0]):
-        for j in range(picture.shape[1]):
-            if picture[i][j]:
-                painter.paint_square(i, j, 0)
+    for row, column in zip(*np.logical_xor(painter.picture, picture).nonzero()):
+        painter.paint_square(row, column, 0)
 
     return painter
