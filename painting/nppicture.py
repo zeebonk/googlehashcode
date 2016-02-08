@@ -13,3 +13,7 @@ def empty_copy(picture):
 
 def to_string(picture):
     return (''.join([''.join(['#' if c else '.' for c in row])+'\n' for row in picture]))
+
+
+def positions_to_paint(working_picture, target_picture):
+	return zip(*np.logical_xor(working_picture, target_picture).nonzero())

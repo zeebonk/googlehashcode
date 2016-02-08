@@ -4,24 +4,22 @@ from painter import Painter
 
 def algorithm(picture, args):
     """
-    Try to use horizontal lines for each cell
+    Try to use vertical lines for each cell
     """
     painter = Painter(nppicture.empty_copy(picture))
 
-    for j in range(picture.shape[1]):
-        for i in range(picture.shape[0]):
-            if painter.picture[i][j]:
-                continue
+    for row, column in nppicture.positions_to_paint(painter.picture, picture):
+        if painter.picture[row][column]:
+            continue
 
-            if picture[i][j]:
-                length = 0
+        length = 0
 
-                for k in range(i+1, picture.shape[0]):
-                    if picture[k][j]:
-                        length += 1
-                    else:
-                        break
+        for i in range(row + 1, picture.shape[0]):
+            if picture[i][column]:
+                length += 1
+            else:
+                break
 
-                painter.paint_line(i, j, i+length, j)
+        painter.paint_line(row, column, row + length, column)
 
     return painter

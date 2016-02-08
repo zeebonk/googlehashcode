@@ -8,20 +8,18 @@ def algorithm(picture, args):
     """
     painter = Painter(nppicture.empty_copy(picture))
 
-    for j in range(picture.shape[1]):
-        for i in range(picture.shape[0]):
-            if painter.picture[i][j]:
-                continue
+    for row, column in nppicture.positions_to_paint(painter.picture, picture):
+        if painter.picture[row][column]:
+            continue
 
-            if picture[i][j]:
-                length = 0
+        length = 0
 
-                for k in range(j+1, picture.shape[1]):
-                    if picture[i][k]:
-                        length += 1
-                    else:
-                        break
+        for i in range(column + 1, picture.shape[1]):
+            if picture[row][i]:
+                length += 1
+            else:
+                break
 
-                painter.paint_line(i, j, i, j+length)
+        painter.paint_line(row, column, row, column + length)
 
     return painter

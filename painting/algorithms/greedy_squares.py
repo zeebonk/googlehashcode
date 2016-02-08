@@ -1,5 +1,3 @@
-from itertools import izip
-
 import numpy as np
 
 import nppicture
@@ -17,6 +15,9 @@ class Square:
 
 
 def algorithm(picture, args):
+    """
+    Keep placing the biggest square possible
+    """
     painter = Painter(nppicture.empty_copy(picture))
 
     square = Square(-1, -1, 100000)
@@ -31,7 +32,7 @@ def algorithm(picture, args):
 
 def get_largest_unpainted_square(picture, painter, prev_size):
     largest_square = Square(-1, -1, -1)
-    for row, column in izip(*np.logical_xor(painter.picture, picture).nonzero()):
+    for row, column in nppicture.positions_to_paint(painter.picture, picture):
         max_radius = min(
             picture.shape[0] - row,
             picture.shape[1] - column,
@@ -40,8 +41,8 @@ def get_largest_unpainted_square(picture, painter, prev_size):
             prev_size + 1,
         )
 
-        for i in xrange(largest_square.size + 1, max_radius):
-            if picture[row-i:row+i+1, column-i:column+i+1].all():
+        for i in range(largest_square.size + 1, max_radius):
+            if picture[row - i:row + i + 1, column - i:column + i + 1].all():
                 largest_square = Square(row, column, i)
             else:
                 break
@@ -49,5 +50,4 @@ def get_largest_unpainted_square(picture, painter, prev_size):
     if largest_square.size == -1:
         return None
 
-    print largest_square
     return largest_square

@@ -1,4 +1,4 @@
-class Painter(object):
+class Painter:
     def __init__(self, picture):
         self.picture = picture
         self.commands = []

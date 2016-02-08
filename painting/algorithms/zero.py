@@ -1,3 +1,5 @@
+import numpy as np
+
 import nppicture
 from painter import Painter
 
@@ -8,7 +10,7 @@ def algorithm(picture, args):
     """
     painter = Painter(nppicture.empty_copy(picture))
 
-    for row, column in zip(*np.logical_xor(painter.picture, picture).nonzero()):
+    for row, column in nppicture.positions_to_paint(painter.picture, picture):
         painter.paint_square(row, column, 0)
 
     return painter
