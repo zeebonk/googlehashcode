@@ -19,8 +19,9 @@ class Square:
 def algorithm(picture, args):
     painter = Painter(nppicture.empty_copy(picture))
 
+    square = Square(-1, -1, 100000)
     while True:
-        square = get_largest_unpainted_square(picture, painter)
+        square = get_largest_unpainted_square(picture, painter, square.size)
         if not square:
             break
         painter.paint_square(square.row, square.column, square.size)
@@ -28,7 +29,7 @@ def algorithm(picture, args):
     return painter
 
 
-def get_largest_unpainted_square(picture, painter):
+def get_largest_unpainted_square(picture, painter, prev_size):
     largest_square = Square(-1, -1, -1)
     for row, column in izip(*np.logical_xor(painter.picture, picture).nonzero()):
         max_radius = min(
@@ -36,6 +37,7 @@ def get_largest_unpainted_square(picture, painter):
             picture.shape[1] - column,
             row + 1,
             column + 1,
+            prev_size + 1,
         )
 
         for i in xrange(largest_square.size + 1, max_radius):
@@ -47,4 +49,5 @@ def get_largest_unpainted_square(picture, painter):
     if largest_square.size == -1:
         return None
 
+    print largest_square
     return largest_square
