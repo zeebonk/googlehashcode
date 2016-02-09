@@ -2,6 +2,12 @@ class Painter:
     def __init__(self, picture):
         self.picture = picture
         self.commands = []
+    
+    def copy(self):
+        p = Painter(self.picture.copy())
+        p.commands = self.commands.copy()
+
+        return p
 
     def paint_square(self, r, c, s):
         if r-s < 0 or r+s >= self.picture.shape[0] or c-s < 0 or c+s >= self.picture.shape[1]:
