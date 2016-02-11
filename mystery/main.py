@@ -21,11 +21,11 @@ if __name__ == '__main__':
     result = module.algorithm(foo, args)
 
     if args.debug:
-        # Output images and other details
+        # Output all debug information
         print(foo)
         print(result)
-        if (foo != result).any():
+        if foo != result:
             raise Exception("Result image different from target image")
     else:
-        # Output commands
+        # Output
         print(result)
