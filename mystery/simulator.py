@@ -30,7 +30,7 @@ class Simulator:
 
                 self.orders.append(Order(r, c, products))
 
-    		self.free_drones = range(self.drone_count)
+    		self.free_drones = list(range(self.drone_count))
 
     def simulate(self, args):
         i = 0
