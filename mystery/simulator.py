@@ -86,6 +86,7 @@ class Simulator:
         drone.c = warehouse.c
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
+        self.commands.append("%d L %d %d %d" % (drone.id, warehouse.id, product_id, product_count))
 
     def deliver(self, drone, order, product_id, product_count):
         if drone.storage[order.id][product_id] < product_count:
@@ -99,13 +100,14 @@ class Simulator:
         drone.c = order.c
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
+        self.commands.append("%d D %d %d %d" % (drone.id, order.id, product_id, product_count))
 
     def wait(self, drone, turns):
         if drone not in self.free_drones:
             raise Exception("Can only command free drones")
 
         turns = min(turns, self.turns - self.i)
-        # print("WAIT", drone.id, turns)
+
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
         self.commands.append("%d W %d" % (drone.id, turns))
