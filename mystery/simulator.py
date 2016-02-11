@@ -86,6 +86,7 @@ class Simulator:
         drone.c = warehouse.c
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
+
         self.commands.append("%d L %d %d %d" % (drone.id, warehouse.id, product_id, product_count))
 
     def deliver(self, drone, order, product_id, product_count):
@@ -100,6 +101,7 @@ class Simulator:
         drone.c = order.c
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
+
         self.commands.append("%d D %d %d %d" % (drone.id, order.id, product_id, product_count))
 
     def wait(self, drone, turns):
@@ -110,6 +112,7 @@ class Simulator:
 
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
+
         self.commands.append("%d W %d" % (drone.id, turns))
 
     def get_output(self):
