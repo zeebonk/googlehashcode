@@ -1,7 +1,7 @@
 import argparse
 import importlib
 
-from foo import Foo
+from simulator import Simulator
 
 
 if __name__ == '__main__':
@@ -14,15 +14,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Load input data and algorithm
-    foo = Foo(args.data)
+    simulator = Simulator.from_file(args.data)
     module = importlib.import_module('algorithms.' + args.algorithm)
 
     # Get result from the algorithm
-    result = module.algorithm(foo, args)
+    result = module.algorithm(simulator, args)
 
     if args.debug:
         # Output all debug information
-        print(foo)
+        print(simulator)
         print(result)
         if foo != result:
             raise Exception("Result image different from target image")

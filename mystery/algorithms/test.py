@@ -1,5 +1,5 @@
-from foo import Foo
+from simulator import Simulator
 
 
-def algorithm(foo, args):
+def algorithm(simulator, args):
     pass
