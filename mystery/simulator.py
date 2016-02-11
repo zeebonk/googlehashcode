@@ -1,5 +1,6 @@
 from order import Order
 from warehouse import Warehouse
+from drone import Drone
 
 
 class Simulator:
@@ -30,7 +31,8 @@ class Simulator:
 
                 self.orders.append(Order(r, c, products))
 
-    		self.free_drones = list(range(self.drone_count))
+    		for i in range(self.drone_count):
+    			self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
 
     def simulate(self, args):
         i = 0
