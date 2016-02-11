@@ -17,7 +17,7 @@ class Simulator:
             self.rows, self.columns, self.drone_count, self.turns, self.max_payloud = map(int, f.readline().split())
             # print(self.rows, self.columns, self.drone_count, self.turns, self.max_payloud)
             product_count = int(f.readline())
-            product_weights = map(int, f.readline().split())
+            self.product_weights = map(int, f.readline().split())
 
             warehouse_count = int(f.readline())
             for i in range(warehouse_count):
@@ -35,7 +35,7 @@ class Simulator:
                 self.orders.append(Order(i, r, c, products))
 
             for i in range(self.drone_count):
-                self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
+                self.free_drones.append(Drone(i, self.max_payloud, self.warehouses[0].r, self.warehouses[0].c))
 
     def simulate(self, args):
         self.i = -1
@@ -57,6 +57,26 @@ class Simulator:
 
             if self.free_drones:
                 raise Exception("All drones must be assigned to a task")
+
+    def load(self, drone, wharehouse, product_id, product_count):
+        if drone not in self.free_drones:
+            raise Exception("Can only command free drones")
+
+        if wharehouse.products[product_id] < product_count:
+            raise Exception("Not enough products in wharehouse")
+
+
+        order.products[product_id] -= product_count
+        drone.storage[product_id] += product_count
+        drone.weight = self.product_weights[product_id] * product_count
+
+        if drone.weight > self.max_paylout:
+            raise Exception("Drone overloaded")
+        
+        if drone.weight < 0:
+            raise Exception("Drone negative load")
+
+
 
     def wait(self, drone, turns):
         if drone not in self.free_drones:

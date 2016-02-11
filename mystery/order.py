@@ -1,6 +1,10 @@
+from collections import Counter
+
+
 class Order:
     def __init__(self, id, r, c, products):
         self.id = id
         self.r = r
         self.c = c
-        self.products = products
+
+        self.products = Counter(products)
