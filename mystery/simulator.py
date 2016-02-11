@@ -1,3 +1,4 @@
+from order import Order
 from warehouse import Warehouse
 
 
@@ -15,10 +16,13 @@ class Simulator:
             for i in range(warehouse_count):
                 r, c = map(int, f.readline().split())
                 products = map(int, f.readline().split())
-                Warehouse(r, c, products)
+
+                self.warehouses.append(Warehouse(r, c, products))
 
             order_count = int(f.readline())
             for i in range(order_count):
                 r, c = map(int, f.readline().split())
                 product_count = int(f.readline())
                 products = map(int, f.readline().split())
+
+                self.orders.append(Order(r, c, products))
