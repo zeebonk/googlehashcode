@@ -31,8 +31,8 @@ class Simulator:
 
                 self.orders.append(Order(r, c, products))
 
-    		for i in range(self.drone_count):
-    			self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
+            for i in range(self.drone_count):
+                self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
 
     def simulate(self, args):
         i = 0
@@ -41,13 +41,13 @@ class Simulator:
 
             new_busy_drones = []
             for drone, turns in busy_drones:
-            	turns -= 1
-            	if turns == 0:
-            		self.free_drones.append(drone)
-        		else:
-        			new_busy_drones.append(drone, turns)
-			self.busy_drones = new_busy_drones
+                turns -= 1
+                if turns == 0:
+                    self.free_drones.append(drone)
+                else:
+                    new_busy_drones.append(drone, turns)
+            self.busy_drones = new_busy_drones
 
             self.algorithm(self, args)
             if self.free_drones:
-            	raise Exception("All drones must be assigned to a task")
+                raise Exception("All drones must be assigned to a task")
