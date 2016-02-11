@@ -1,3 +1,4 @@
+from math import sqrt
 from order import Order
 from warehouse import Warehouse
 from drone import Drone
@@ -58,13 +59,12 @@ class Simulator:
             if self.free_drones:
                 raise Exception("All drones must be assigned to a task")
 
-    def load(self, drone, wharehouse, product_id, product_count):
+    def load(self, drone, warehouse, product_id, product_count):
         if drone not in self.free_drones:
             raise Exception("Can only command free drones")
 
-        if wharehouse.products[product_id] < product_count:
-            raise Exception("Not enough products in wharehouse")
-
+        if warehouse.products[product_id] < product_count:
+            raise Exception("Not enough products in warehouse")
 
         order.products[product_id] -= product_count
         drone.storage[product_id] += product_count
@@ -72,11 +72,16 @@ class Simulator:
 
         if drone.weight > self.max_paylout:
             raise Exception("Drone overloaded")
-        
+
         if drone.weight < 0:
             raise Exception("Drone negative load")
 
+        turns =  int(sqrt((drone.r - order.r)**2 + (warehouse.c - warehouse.c)**2) + 1)
 
+        drone.r = warehouse.r
+        drone.c = warehouse.c
+        self.free_drones.remove(drone)
+        self.busy_drones.append((drone, turns))
 
     def wait(self, drone, turns):
         if drone not in self.free_drones:
