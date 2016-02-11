@@ -2,10 +2,12 @@ from warehouse import Warehouse
 
 
 class Simulator:
-    @classmethod
-    def from_file(cls, path):
+    def __init__(self, path):
+        self.warehouses = []
+        self.orders = []
+
         with open(path) as f:
-            rows, columns, drones, turns, max_payloud = map(int, f.readline().split())
+            self.rows, self.columns, self.drones, self.turns, self.max_payloud = map(int, f.readline().split())
             product_count = int(f.readline())
             product_weights = map(int, f.readline().split())
 
@@ -17,4 +19,6 @@ class Simulator:
 
             order_count = int(f.readline())
             for i in range(order_count):
-                pass
+                r, c = map(int, f.readline().split())
+                product_count = int(f.readline())
+                products = map(int, f.readline().split())

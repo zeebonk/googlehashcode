@@ -14,7 +14,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Load input data and algorithm
-    simulator = Simulator.from_file(args.data)
+    simulator = Simulator(args.data)
     module = importlib.import_module('algorithms.' + args.algorithm)
 
     # Get result from the algorithm
