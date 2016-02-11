@@ -14,11 +14,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Load input data and algorithm
-    simulator = Simulator(args.data)
     module = importlib.import_module('algorithms.' + args.algorithm)
+    simulator = Simulator(args.data, module.algorithm)
 
     # Get result from the algorithm
-    result = module.algorithm(simulator, args)
+    result = simulator.simulate(args)
 
     if args.debug:
         # Output all debug information

@@ -3,7 +3,8 @@ from warehouse import Warehouse
 
 
 class Simulator:
-    def __init__(self, path):
+    def __init__(self, path, algorithm):
+        self.algorithm = algorithm
         self.warehouses = []
         self.orders = []
 
@@ -26,3 +27,10 @@ class Simulator:
                 products = map(int, f.readline().split())
 
                 self.orders.append(Order(r, c, products))
+
+    def simulate(self, args):
+        i = 0
+        while i < self.turns and self.orders:
+            i += 1
+
+            self.algorithm(self, args)
