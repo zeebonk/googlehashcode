@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 class Drone:
@@ -8,4 +8,4 @@ class Drone:
         self.r = r
         self.c = c
 
-        self.storage = Counter()
+        self.storage = defaultdict(Counter)
