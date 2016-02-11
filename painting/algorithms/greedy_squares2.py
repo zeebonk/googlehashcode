@@ -15,7 +15,8 @@ class Square:
 
 def algorithm(picture, args):
     """
-    Keep placing the biggest square possible
+    Keep placing the biggest square possible. When only squares of size 1 are
+    possible, fill with lines.
     """
     painter = Painter(picture.empty_copy())
 
@@ -25,6 +26,20 @@ def algorithm(picture, args):
         if not square:
             break
         painter.paint_square(square.row, square.column, square.size)
+
+    for row, column in painter.picture.positions_to_paint(picture):
+        if painter.picture[row][column]:
+            continue
+
+        length = 0
+
+        for i in range(row + 1, picture.shape[0]):
+            if picture[i][column]:
+                length += 1
+            else:
+                break
+
+        painter.paint_line(row, column, row + length, column)
 
     return painter
 
@@ -46,7 +61,7 @@ def get_largest_unpainted_square(picture, painter, prev_size):
             else:
                 break
 
-    if largest_square.size == -1:
+    if largest_square.size <= 0:
         return None
 
     return largest_square
