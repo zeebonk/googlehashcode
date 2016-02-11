@@ -11,8 +11,11 @@ class Simulator:
         self.busy_drones = []
         self.free_drones = []
 
+        self.commands = []
+
         with open(path) as f:
             self.rows, self.columns, self.drone_count, self.turns, self.max_payloud = map(int, f.readline().split())
+            print(self.rows, self.columns, self.drone_count, self.turns, self.max_payloud)
             product_count = int(f.readline())
             product_weights = map(int, f.readline().split())
 
@@ -35,19 +38,40 @@ class Simulator:
                 self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
 
     def simulate(self, args):
-        i = 0
-        while i < self.turns and self.orders:
-            i += 1
+        self.i = 0
+        while self.i < self.turns and self.orders:
+            self.i += 1
 
+            # Update busy drone state
             new_busy_drones = []
-            for drone, turns in busy_drones:
+            for drone, turns in self.busy_drones:
                 turns -= 1
                 if turns == 0:
                     self.free_drones.append(drone)
                 else:
-                    new_busy_drones.append(drone, turns)
+                    new_busy_drones.append((drone, turns))
             self.busy_drones = new_busy_drones
 
             self.algorithm(self, args)
+
             if self.free_drones:
                 raise Exception("All drones must be assigned to a task")
+
+    def wait(self, drone, turns):
+        if drone not in self.free_drones:
+            raise Exception("Can only command free drones")
+
+        if turns < 0:
+            raise Exception("Turns must be a postive integer")
+
+        turns = min(self.i + turns, self.turns)
+
+        self.free_drones.remove(drone)
+        self.busy_drones.append((drone, turns))
+        self.commands.append("%d W %d" % (drone.id, turns))
+
+    def get_output(self):
+        lines = []
+        lines.append(str(len(self.commands)))
+        lines.extend(self.commands)
+        return '\n'.join(lines)

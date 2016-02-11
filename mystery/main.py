@@ -18,7 +18,7 @@ if __name__ == '__main__':
     simulator = Simulator(args.data, module.algorithm)
 
     # Get result from the algorithm
-    result = simulator.simulate(args)
+    simulator.simulate(args)
 
     if args.debug:
         # Output all debug information
@@ -26,6 +26,7 @@ if __name__ == '__main__':
         print(result)
         if foo != result:
             raise Exception("Result image different from target image")
-    else:
-        # Output
-        print(result)
+
+    print(args.data[:-2] + 'out')
+    with open(args.data[:-2] + 'out', 'wb') as f:
+        f.write(simulator.get_output().encode('utf-8'))
