@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt, ceil
 from order import Order
 from warehouse import Warehouse
 from drone import Drone
@@ -76,7 +76,7 @@ class Simulator:
         if drone.weight < 0:
             raise Exception("Drone negative load")
 
-        turns =  int(sqrt((drone.r - order.r)**2 + (warehouse.c - warehouse.c)**2) + 1)
+        turns = int(ceil(sqrt((drone.r - order.r)**2 + (warehouse.c - warehouse.c)**2)) + 1)
 
         drone.r = warehouse.r
         drone.c = warehouse.c
