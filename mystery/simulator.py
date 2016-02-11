@@ -32,7 +32,7 @@ class Simulator:
                 product_count = int(f.readline())
                 products = map(int, f.readline().split())
 
-                self.orders.append(Order(r, c, products))
+                self.orders.append(Order(i, r, c, products))
 
             for i in range(self.drone_count):
                 self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
