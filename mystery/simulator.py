@@ -15,7 +15,7 @@ class Simulator:
 
         with open(path) as f:
             self.rows, self.columns, self.drone_count, self.turns, self.max_payloud = map(int, f.readline().split())
-            print(self.rows, self.columns, self.drone_count, self.turns, self.max_payloud)
+            # print(self.rows, self.columns, self.drone_count, self.turns, self.max_payloud)
             product_count = int(f.readline())
             product_weights = map(int, f.readline().split())
 
@@ -38,9 +38,10 @@ class Simulator:
                 self.free_drones.append(Drone(i, self.warehouses[0].r, self.warehouses[0].c))
 
     def simulate(self, args):
-        self.i = 0
-        while self.i < self.turns and self.orders:
+        self.i = -1
+        while self.i < self.turns - 1 and self.orders:
             self.i += 1
+            print(self.i)
 
             # Update busy drone state
             new_busy_drones = []
@@ -61,11 +62,8 @@ class Simulator:
         if drone not in self.free_drones:
             raise Exception("Can only command free drones")
 
-        if turns < 0:
-            raise Exception("Turns must be a postive integer")
-
-        turns = min(self.i + turns, self.turns)
-
+        turns = min(turns, self.turns - self.i)
+        # print("WAIT", drone.id, turns)
         self.free_drones.remove(drone)
         self.busy_drones.append((drone, turns))
         self.commands.append("%d W %d" % (drone.id, turns))
