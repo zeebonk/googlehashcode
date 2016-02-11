@@ -15,28 +15,28 @@ class Simulator:
         self.commands = []
 
         with open(path) as f:
-            self.rows, self.columns, self.drone_count, self.turns, self.max_payloud = map(int, f.readline().split())
-            # print(self.rows, self.columns, self.drone_count, self.turns, self.max_payloud)
+            self.rows, self.columns, self.drone_count, self.turns, self.max_payload = map(int, f.readline().split())
+            # print(self.rows, self.columns, self.drone_count, self.turns, self.max_payload)
             product_count = int(f.readline())
-            self.product_weights = map(int, f.readline().split())
+            self.product_weights = list(map(int, f.readline().split()))
 
             warehouse_count = int(f.readline())
             for i in range(warehouse_count):
-                r, c = map(int, f.readline().split())
-                products = map(int, f.readline().split())
+                r, c = list(map(int, f.readline().split()))
+                products = list(map(int, f.readline().split()))
 
-                self.warehouses.append(Warehouse(r, c, products))
+                self.warehouses.append(Warehouse(i, r, c, products))
 
             order_count = int(f.readline())
             for i in range(order_count):
-                r, c = map(int, f.readline().split())
+                r, c = list(map(int, f.readline().split()))
                 product_count = int(f.readline())
-                products = map(int, f.readline().split())
+                products = list(map(int, f.readline().split()))
 
                 self.orders.append(Order(i, r, c, products))
 
             for i in range(self.drone_count):
-                self.free_drones.append(Drone(i, self.max_payloud, self.warehouses[0].r, self.warehouses[0].c))
+                self.free_drones.append(Drone(i, self.max_payload, self.warehouses[0].r, self.warehouses[0].c))
 
     def simulate(self, args):
         self.i = -1
@@ -74,7 +74,7 @@ class Simulator:
         drone.storage[order.id][product_id] += product_count
         drone.weight = self.product_weights[product_id] * product_count
 
-        if drone.weight > self.max_paylout:
+        if drone.weight > self.max_payload:
             raise Exception("Drone overloaded")
 
         if drone.weight < 0:
@@ -95,7 +95,7 @@ class Simulator:
 
         drone.storage[order.id][product_id] -= product_count
 
-        turns = int(ceil(sqrt((drone.r - order.r)**2 + (warehouse.c - warehouse.c)**2)) + 1)
+        turns = int(ceil(sqrt((drone.r - order.r)**2 + (drone.c - order.c)**2)) + 1)
 
         drone.r = order.r
         drone.c = order.c
